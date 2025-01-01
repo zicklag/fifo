@@ -57,7 +57,7 @@ Deno.test("AsyncIterator", async () => {
     const queue = new FIFO<number>();
     const values: number[] = [];
 
-    (async () => {
+    const promise = (async () => {
         for await (const value of queue) {
             values.push(value);
         }
@@ -68,6 +68,8 @@ Deno.test("AsyncIterator", async () => {
     queue.push(3);
 
     await new Promise(resolve => setTimeout(resolve));
+
+    await promise
 
     assertEquals(values, [1, 2, 3]);
     assertEquals(queue.length, 0);
