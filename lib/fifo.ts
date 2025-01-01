@@ -108,7 +108,9 @@ export class FIFO<T> {
     public async *[Symbol.asyncIterator](): AsyncGenerator<T> {
         while (true) {
             if (this.length) {
-                yield this.shift()!;
+                const value = this.shift()!;
+                if (!value) break;
+                yield value;
                 continue;
             }
 
